@@ -1,0 +1,506 @@
+<div id="carouselExample" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="img/banner1.jpg" class="d-block w-100" alt="..." />
+    </div>
+    <div class="carousel-item">
+      <img src="img/banner3.jpg" class="d-block w-100" alt="..." />
+    </div>
+    <div class="carousel-item">
+      <img src="img/banner2.jpg" class="d-block w-100" alt="..." />
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExample"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExample"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div id="redes_sociales" class="redes_sociales">
+  <h2>Redes <span>Sociales</span></h2>
+
+  <div class="row justify-content-evenly">
+    <div class="col-md-4">
+      <img src="img/Rectangle_2.png" alt="redes_sociales1" />
+    </div>
+    <div class="col-md-4">
+      <img src="img/Rectangle_3.png" alt="redes_sociales2" />
+    </div>
+  </div>
+</div>
+
+<div class="mapa" id="mapa">
+  <h2>Conoce tus centros de salud<span>MÁS CERCANOS</span></h2>
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d44913.45252102556!2d-77.04568553678186!3d-12.069180992348048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1scentros%20hospitalarios!5e0!3m2!1ses-419!2spe!4v1735852286648!5m2!1ses-419!2spe"
+    width="600"
+    height="450"
+    style="border: 0"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
+<div class="botones" id="contenedor_botones">
+  <div class="boton_principal" id="boton_principal" (click)="botones()">
+    <button
+      class="crear_incidencia"
+      id="crear_incidencia"
+      type="button"
+      data-bs-toggle="modal"
+      data-bs-target="#myModal"
+    >
+      <svg
+        width="27"
+        height="27"
+        viewBox="0 0 27 27"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M24.9231 11.4231H15.5769V2.07692C15.5769 1.52609 15.3581 0.997816 14.9686 0.608317C14.5791 0.218818 14.0508 0 13.5 0C12.9492 0 12.4209 0.218818 12.0314 0.608317C11.6419 0.997816 11.4231 1.52609 11.4231 2.07692V11.4231H2.07692C1.52609 11.4231 0.997816 11.6419 0.608317 12.0314C0.218818 12.4209 0 12.9492 0 13.5C0 14.0508 0.218818 14.5791 0.608317 14.9686C0.997816 15.3581 1.52609 15.5769 2.07692 15.5769H11.4231V24.9231C11.4231 25.4739 11.6419 26.0022 12.0314 26.3917C12.4209 26.7812 12.9492 27 13.5 27C14.0508 27 14.5791 26.7812 14.9686 26.3917C15.3581 26.0022 15.5769 25.4739 15.5769 24.9231V15.5769H24.9231C25.4739 15.5769 26.0022 15.3581 26.3917 14.9686C26.7812 14.5791 27 14.0508 27 13.5C27 12.9492 26.7812 12.4209 26.3917 12.0314C26.0022 11.6419 25.4739 11.4231 24.9231 11.4231Z"
+          fill="white"
+        />
+      </svg>
+    </button>
+    <button
+      class="buscar_incidencia"
+      id="buscar_incidencia"
+      onclick="buscar_incidencia()"
+      data-bs-toggle="modal"
+      data-bs-target="#myModal2"
+    >
+      <svg
+        width="25"
+        height="25"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.7422 10.3439C12.5329 9.2673 13 7.9382 13 6.5C13 2.91015 10.0899 0 6.5 0C2.91015 0 0 2.91015 0 6.5C0 10.0899 2.91015 13 6.5 13C7.93858 13 9.26801 12.5327 10.3448 11.7415L10.3439 11.7422C10.3734 11.7822 10.4062 11.8204 10.4424 11.8566L14.2929 15.7071C14.6834 16.0976 15.3166 16.0976 15.7071 15.7071C16.0976 15.3166 16.0976 14.6834 15.7071 14.2929L11.8566 10.4424C11.8204 10.4062 11.7822 10.3734 11.7422 10.3439ZM12 6.5C12 9.53757 9.53757 12 6.5 12C3.46243 12 1 9.53757 1 6.5C1 3.46243 3.46243 1 6.5 1C9.53757 1 12 3.46243 12 6.5Z"
+          fill="black"
+        />
+      </svg>
+    </button>
+    <div class="call_center" id="call_center">
+      <a
+      [routerLink] = "['/login']"
+        style="text-decoration: none; color: inherit"
+      >
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 36 37"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_309_1063)">
+            <path
+              d="M4.5 15.625C4.5 12.0446 5.92232 8.6108 8.45406 6.07906C10.9858 3.54732 14.4196 2.125 18 2.125C21.5804 2.125 25.0142 3.54732 27.5459 6.07906C30.0777 8.6108 31.5 12.0446 31.5 15.625"
+              stroke="white"
+              stroke-width="3"
+              stroke-linejoin="round"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.125 15.625C0.125 15.0727 0.572715 14.625 1.125 14.625H7.875C8.42728 14.625 8.875 15.0727 8.875 15.625V26.875C8.875 27.4273 8.42728 27.875 7.875 27.875H1.125C0.572715 27.875 0.125 27.4273 0.125 26.875V15.625Z"
+              fill="white"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M27.125 15.625C27.125 15.0727 27.5727 14.625 28.125 14.625H34.875C35.4273 14.625 35.875 15.0727 35.875 15.625V26.875C35.875 27.4273 35.4273 27.875 34.875 27.875H28.125C27.5727 27.875 27.125 27.4273 27.125 26.875V15.625Z"
+              fill="white"
+            />
+            <path
+              d="M4.5 26.875V33.625H15.75"
+              stroke="white"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M20.25 31.375H15.75V35.875H20.25V31.375Z"
+              stroke="white"
+              stroke-width="2"
+              stroke-linejoin="round"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_309_1063">
+              <rect width="36" height="37" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal registro_incidencia_1" id="myModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form  [formGroup]="incidenciaForm">
+      <div class="modal-content uno activo" id="uno">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Registro Incidencia</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="steps">
+            <div class="step1">1</div>
+            <div class="step2">2</div>
+            <div class="step3">3</div>
+          </div>
+
+          <div class="tipologia">
+            <div class="salud"  id="salud" (click)="salud()"></div>
+            <div class="calidad" id="calidad" (click)="calidad()"></div>
+            <div class="otros" id="otros" (click)="otros()"></div>
+          </div>
+
+          <textarea
+            name=""
+            id="detalle_incidencia"
+            placeholder="Ingresar detalle de la incidencia"
+            formControlName="detalleIncidencia"
+          ></textarea>
+
+          <div class="upload">
+            <div class="subir_img">
+              <input type="file" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" (click)="siguiente()">Siguiente</button>
+        </div>
+      </div>
+
+      <div class="modal-content dos" id="dos">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Registro Incidencia</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="steps">
+            <div class="step1" (click)="volver1()">1</div>
+            <div class="step2">2</div>
+            <div class="step3">3</div>
+          </div>
+
+          <!-- Select Región -->
+          <select
+
+            class="campos one"
+            name="region"
+           formControlName="region"
+            (change)="onRegionChange()"
+          >
+            <option value="" disabled selected>Región</option>
+            <!-- Lista de regiones cargadas dinámicamente -->
+            <option *ngFor="let region of regiones" [value]="region.IdRegion">
+              {{ region.Nombre }}
+            </option>
+          </select>
+
+          <!-- Select Provincia -->
+          <select
+
+            class="campos two"
+            name="provincia"
+            formControlName="provincia"
+            [disabled]="!selectedRegionId"
+            (change)="onProvinciaChange()"
+          >
+            <option value="" disabled selected>Provincia</option>
+            <!-- Lista de provincias cargadas dinámicamente -->
+            <option
+              *ngFor="let provincia of provincias"
+              [value]="provincia.IdProvincia"
+            >
+              {{ provincia.NombreProvincia }}
+            </option>
+          </select>
+
+          <!-- Select Distrito -->
+          <select
+
+            class="campos three"
+            name="distrito"
+            formControlName="distrito"
+            [disabled]="!selectedProvinciaId"
+            (change)="onDistritoChange()"
+          >
+            <option value="" disabled selected>Distrito</option>
+            <!-- Lista de distritos cargados dinámicamente -->
+            <option
+              *ngFor="let distrito of distritos"
+              [value]="distrito.IdDistrito"
+            >
+              {{ distrito.NombreDistrito }}
+            </option>
+          </select>
+
+          <!-- Input de Colegio -->
+          <input
+            id="campos1"
+            class="campos"
+            type="text"
+            placeholder="Ingresar nombre del Colegio"
+            list="colegiosList"
+            name="searchQuery"
+            formControlName="nombreColegio"
+            (input)="onColegioInput()"
+          />
+
+          <datalist id="colegiosList">
+            <option
+              *ngFor="let colegio of colegios"
+              [value]="colegio.NombreColegio"
+
+            >{{ colegio.NombreColegio }}</option>
+          </datalist>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div *ngIf="mensajeUbicacion" class="alert alert-warning">
+            {{ mensajeUbicacion }}
+          </div>
+
+          <button class="btn_siguiente" type="button" (click)="volver1()">
+            Regresar
+          </button>
+          <button class="btn_siguiente" type="button" (click)="siguiente2()">
+            Siguiente
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-content tres" id="tres">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Registro Incidencia</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+
+        <div class="modal-body">
+          <div class="steps">
+            <div class="step1" (click)="volver3()">1</div>
+            <div class="step2" (click)="volver2()">2</div>
+            <div class="step3">3</div>
+          </div>
+
+          <div class="incognito">
+            Incognito
+            <label class="switch" id="switch" (click)="toggleButton()">
+              <input type="checkbox" id="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+          <div class="doc_identidad">
+            <select id="T_Doc" class="campos p3" formControlName="tipoDocumentoTutor">
+              <option value="" disabled selected>T. Doc.</option>
+              <option value="DNI">DNI</option>
+              <option value="CE">C.E.</option>
+            </select>
+            <input
+              id="num_documento"
+              class="campos num_documento p3"
+              type="number"
+              placeholder="Numero de Documento"
+              formControlName="numeroDocumentoTutor"
+            />
+          </div>
+
+          <input
+            id="nombre_apellido"
+            class="campos p3"
+            type="text"
+            placeholder="Nombre y Apellido"
+            formControlName="nombreTutor"
+          />
+
+          <input
+            id="celular"
+            class="campos p3"
+            type="number"
+            placeholder="Celular"
+            formControlName="celularTutor"
+          />
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button class="btn_siguiente" type="button" (click)="volver2()">
+            Regresar
+          </button>
+          <button class="btn_siguiente" type="button" data-bs-dismiss="modal" aria-label="Close"  (click)="registrarIncidencia()">
+            Registrar
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-content fin" id="fin">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+
+        <!-- Modal body -->
+
+        <div class="modal-body">Se registro la incidencia con éxito</div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn_siguiente"
+            data-bs-dismiss="modal"
+            onclick="resetForm()"
+          >
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- The Modal 2-->
+<div class="modal buscar_incidencia" id="myModal2">
+  <div class="modal-dialog">
+    <div class="modal-content buscar_documento activo" id="buscar_documento">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Buscar Incidencia</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="">
+          <div class="doc_identidad">
+            <select id="T_Doc" class="campos p3" name="T_Doc">
+              <option value="Region">T. Doc.</option>
+              <option value="DNI">DNI</option>
+              <option value="CE">C.E.</option>
+            </select>
+            <input
+              id="num_documento"
+              class="campos num_documento p3"
+              type="number"
+              placeholder="Numero de Documento"
+            />
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" onclick="resultado_busqueda()">Ver</button>
+      </div>
+    </div>
+
+    <div class="modal-content resultado_busqueda" id="resultado_busqueda">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Incidencias Registradas
+          <div class="detalle_usuario">
+            <span>Juan Aguilar </span> - <span>Unidad Escolar 154 </span>
+          </div>
+        </h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="input-group rounded buscador">
+          <input
+            type="search"
+            class="form-control rounded"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+          />
+          <span class="input-group-text border-0" id="search-addon">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.875 0.75C2.60063 0.75 0.75 2.60063 0.75 4.875C0.75 7.14937 2.60063 9 4.875 9C7.14937 9 9 7.14937 9 4.875C9 2.60063 7.14937 0.75 4.875 0.75ZM4.875 8.25C3.01425 8.25 1.5 6.73612 1.5 4.875C1.5 3.01425 3.01425 1.5 4.875 1.5C6.73612 1.5 8.25 3.01425 8.25 4.875C8.25 6.73612 6.73612 8.25 4.875 8.25Z"
+                fill="#5C5C5C"
+              />
+              <path
+                d="M11.1401 10.6098L8.88973 8.35985C8.74311 8.21322 8.50611 8.21322 8.35948 8.35985C8.21286 8.50647 8.21286 8.74347 8.35948 8.8901L10.6099 11.1401C10.683 11.2132 10.779 11.25 10.875 11.25C10.971 11.25 11.067 11.2132 11.1401 11.1401C11.2867 10.9935 11.2867 10.7565 11.1401 10.6098Z"
+                fill="#5C5C5C"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" onclick="incidencias_registradas()">Ver</button>
+      </div>
+    </div>
+  </div>
+</div>

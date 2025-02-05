@@ -1,0 +1,40 @@
+nav{
+  display: flex;
+  justify-content: center;
+  }
+
+  nav ul{
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin: 50px;
+  }
+
+  nav li{
+  list-style: none;
+  }
+
+  nav li a{
+  color: #5B5B5B;
+  text-decoration: none;
+  }
+
+  footer{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  }
+
+  footer div{
+  display: flex;
+  justify-content: center;
+  width: 30%;
+  margin: auto;
+  }
+
+  footer .copywrite{
+  background-color: #ED4167;
+  color: white;
+  width: 100%;
+  padding: 20px;
+  }
