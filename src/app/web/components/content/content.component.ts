@@ -45,7 +45,7 @@ export class ContentComponent {
 
   incidenciaForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private incidenciaService: IncidenciaService  ) {}
+  constructor(private fb: FormBuilder, private incidenciaService: IncidenciaService) { }
 
   ngOnInit(): void {
     // Inicializar el toggleButton cuando la aplicación cargue
@@ -56,9 +56,9 @@ export class ContentComponent {
 
     //this.loadCoordenadas();
     this.incidenciaForm.get('nombreColegio')?.valueChanges.subscribe(value => {
-      if(value){
+      if (value) {
 
-        const idcolegio = this.colegios.find(f=> f.NombreColegio === value)?.IdColegio;
+        const idcolegio = this.colegios.find(f => f.NombreColegio === value)?.IdColegio;
         this.incidenciaForm.get('idcolegio')?.setValue(idcolegio);
       }
     });
@@ -72,7 +72,7 @@ export class ContentComponent {
     }
   }
 
-  initiateForm(){
+  initiateForm() {
     //Creación del formulario con validaciones
     this.incidenciaForm = this.fb.group({
       idcolegio: ['', Validators.required],
@@ -128,20 +128,20 @@ export class ContentComponent {
       Estado: this.incidenciaForm.value.estado,
       FechaReagendado: this.incidenciaForm.value.fechaReagendado,
     };
-    console.log('VEr datos enviados',incidencia);
+    console.log('VEr datos enviados', incidencia);
     this.incidenciaService.registrarIncidencia(incidencia).subscribe({
       next: (data) => {
         console.log('Incidencia registrada con éxito:', data);
         this.resetForm(); // Resetear el formulario
 
         // Cerrar el modal con Bootstrap
-      let modalElement = document.getElementById('myModal');
-      if (modalElement) {
-        let modalInstance = Modal.getInstance(modalElement);
-        if (modalInstance) {
-          modalInstance.hide();
+        let modalElement = document.getElementById('myModal');
+        if (modalElement) {
+          let modalInstance = Modal.getInstance(modalElement);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
         }
-      }
       },
       error: (err) => {
         console.error('Error al registrar la incidencia', err);
@@ -202,10 +202,12 @@ export class ContentComponent {
               this.selectedProvinciaId = data.IdProvincia;
               this.selectedRegionId = data.IdRegion;
 
-              this.loadRegiones();
+              this.incidenciaForm.get('region')?.setValue(this.selectedRegionId);
               this.onRegionChange();
+              this.incidenciaForm.get('provincia')?.setValue(this.selectedProvinciaId);
               this.onProvinciaChange();
-            },error: (err) => (this.error = 'Error al obtener los datos del servicio'),
+              this.incidenciaForm.get('distrito')?.setValue(this.selectedDistritoId)
+            }, error: (err) => (this.error = 'Error al obtener los datos del servicio'),
           });
         },
         (err) => {
@@ -217,7 +219,6 @@ export class ContentComponent {
     }
 
   }
-
 
   // Cargar las regiones
   loadRegiones(): void {
@@ -232,25 +233,25 @@ export class ContentComponent {
     );
   }
 
- // Cargar provincias al seleccionar una región
- onRegionChange(): void {
-  console.log('Lista de Provincias por Id Provinca',this.selectedRegionId);
-  if (this.incidenciaForm.get('region')?.value) {
-    this.incidenciaService.getByIdProvincia(this.incidenciaForm.get('region')?.value).subscribe({
-      next: (data:ProvinciaDao[]) => {this.provincias = data, console.log('Lista de Provincias',data)},
-      error: (err) => console.error('Error al cargar provincias:', err)
-    });
-    this.distritos = [];
-    this.colegios = [];
+  // Cargar provincias al seleccionar una región
+  onRegionChange(): void {
+    console.log('Lista de Provincias por Id Provinca', this.selectedRegionId);
+    if (this.incidenciaForm.get('region')?.value) {
+      this.incidenciaService.getByIdProvincia(this.incidenciaForm.get('region')?.value).subscribe({
+        next: (data: ProvinciaDao[]) => { this.provincias = data, console.log('Lista de Provincias', data) },
+        error: (err) => console.error('Error al cargar provincias:', err)
+      });
+      this.distritos = [];
+      this.colegios = [];
+    }
   }
-}
 
   // Cargar distritos al seleccionar una provincia
   onProvinciaChange(): void {
-    console.log('Lista de Distritos por Id Provinca',this.selectedProvinciaId);
+    console.log('Lista de Distritos por Id Provinca', this.selectedProvinciaId);
     if (this.incidenciaForm.get('provincia')?.value) {
       this.incidenciaService.getByIdDistrito(this.incidenciaForm.get('provincia')?.value).subscribe({
-        next: (data:DistritoDao[]) => {this.distritos = data, console.log('Lista de Distritos|',data)},
+        next: (data: DistritoDao[]) => { this.distritos = data, console.log('Lista de Distritos|', data) },
         error: (err) => console.error('Error al cargar distritos:', err)
       });
       this.colegios = [];
@@ -271,39 +272,38 @@ export class ContentComponent {
     }
   }
 
-onColegioInput(): void {
-  console.log('Usuario está buscando:', this.searchQuery);
-  // Puedes filtrar los colegios aquí si lo necesitas.
-}
-
-ngAfterViewInit(): void {
-  const modalElement = document.getElementById('myModal') as HTMLElement;
-  if (modalElement) {
-    this.modalInstance = new Modal(modalElement);
-
-    // Ejecutar loadCoordenadas cuando el usuario abre el modal 2
-    modalElement.addEventListener('shown.bs.modal', () => {
-      //this.loadCoordenadas();
-    });
-  } else {
-    console.error('No se encontró el modal en el DOM.');
+  onColegioInput(): void {
+    console.log('Usuario está buscando:', this.searchQuery);
+    // Puedes filtrar los colegios aquí si lo necesitas.
   }
-}
 
-siguiente(): void {
-  // Lógica para avanzar al paso 2
-  document.getElementById('uno')?.classList.remove('activo');
-  document.getElementById('dos')?.classList.add('activo');
+  ngAfterViewInit(): void {
+    const modalElement = document.getElementById('myModal') as HTMLElement;
+    if (modalElement) {
+      this.modalInstance = new Modal(modalElement);
 
-  // Cargar coordenadas solo al abrir el paso 2
-  this.loadCoordenadas();
-}
+      // Ejecutar loadCoordenadas cuando el usuario abre el modal 2
+      modalElement.addEventListener('shown.bs.modal', () => {
+        //this.loadCoordenadas();
+      });
+    } else {
+      console.error('No se encontró el modal en el DOM.');
+    }
+  }
 
-siguiente2(): void {
-  document.getElementById('dos')?.classList.remove('activo');
-  document.getElementById('tres')?.classList.add('activo');
-}
+  siguiente(): void {
+    // Lógica para avanzar al paso 2
+    document.getElementById('uno')?.classList.remove('activo');
+    document.getElementById('dos')?.classList.add('activo');
 
+    // Cargar coordenadas solo al abrir el paso 2
+    this.loadCoordenadas();
+  }
+
+  siguiente2(): void {
+    document.getElementById('dos')?.classList.remove('activo');
+    document.getElementById('tres')?.classList.add('activo');
+  }
 
   volver1(): void {
     const modal1 = document.getElementById('uno');
