@@ -1,4 +1,6 @@
-export interface IncidenciaDato {
+import { ColegioDao } from "./colegio.model";
+
+export interface IncidenciaDao {
   IdColegio: string;
   TipoIncidencia: string;
   Tipologia: string;
@@ -10,4 +12,6 @@ export interface IncidenciaDato {
   Archivo: File | null;
   Estado: string;
   FechaReagendado: string | null;
+
+  Colegio: ColegioDao;
 }

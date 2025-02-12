@@ -10,5 +10,5 @@ import { ComponentsModule } from "./web/components/components.module";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'wasi-front';
+  title = 'Wasi Mikuna';
 }

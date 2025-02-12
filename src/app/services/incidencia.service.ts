@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IncidenciaDato } from '../models/incidencia.model';
+import { IncidenciaDao } from '../models/incidencia.model';
 import { RegionDao } from '../models/region.model';
 import { ProvinciaDao } from '../models/provincia.model';
 import { DistritoDao } from '../models/distrito.model';
@@ -22,8 +22,8 @@ export class IncidenciaService {
   constructor(private http: HttpClient) { }
 
   // Crear-Guardar nuevo sistema
-  registrarIncidencia(incidencia: IncidenciaDato): Observable<IncidenciaDato> {
-    return this.http.post<IncidenciaDato>(`${this.apiUrlIncidencia}registrar`, incidencia);
+  registrarIncidencia(incidencia: IncidenciaDao): Observable<IncidenciaDao> {
+    return this.http.post<IncidenciaDao>(`${this.apiUrlIncidencia}registrar`, incidencia);
   }
 
   obtenerDistritoPorCoordenadas(longitud: string, latitud: string): Observable<DistritoDao> {
@@ -49,5 +49,17 @@ export class IncidenciaService {
   // Obtener Colegio por Id de Distrito
   getByIdColegio(idDistrito: string): Observable<ColegioDao[]> {
     return this.http.get<ColegioDao[]>(`${this.apiUrlColegio}${idDistrito}`);
+  }
+
+  // Buscar incidencias por Tipo de Documento y Número de Documento
+  buscarPorTipoYNumero(tipoDoc: string, nroDoc: string): Observable<IncidenciaDao[]> {
+    const url = `${this.apiUrlIncidencia}buscar-por-tipo-numero?tipoDoc=${tipoDoc}&nroDoc=${nroDoc}`;
+    return this.http.get<IncidenciaDao[]>(url);
+  }
+
+  // Buscar incidencias por Número de Documento
+  buscarPorNumero(nroDoc: string): Observable<IncidenciaDao[]> {
+    const url = `${this.apiUrlIncidencia}buscar-por-numero?nroDoc=${nroDoc}`;
+    return this.http.get<IncidenciaDao[]>(url);
   }
 }

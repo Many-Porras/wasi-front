@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Modal } from 'bootstrap';
 import { IncidenciaService } from '../../../services/incidencia.service';
-import { IncidenciaDato } from '../../../models/incidencia.model';
+import { IncidenciaDao } from '../../../models/incidencia.model';
 import { RegionDao } from '../../../models/region.model';
 import { ProvinciaDao } from '../../../models/provincia.model';
 import { DistritoDao } from '../../../models/distrito.model';
@@ -40,10 +40,24 @@ export class ContentComponent {
 
   selectedTipologia: string = '[]';
   selectedFile: File | null = null;
-
   selectedCategories: string[] = [];
-
   incidenciaForm!: FormGroup;
+
+  incidencias: IncidenciaDao[] = [];
+  tipoDocumento: string = '';
+  numeroDocumento: string = '';
+  incidenciaSeleccionada: IncidenciaDao | null = null;
+
+  incidenciasFiltradas: any[] = [];
+  tipologias: string[] = [];
+  filtroSeleccionado: string = 'Todas';
+
+
+  @ViewChild('myModal2', { static: false }) myModal2!: ElementRef;
+
+  // Constantes de prueba
+  private readonly TIPO_DOCUMENTO = 'DNI';
+  private readonly NUMERO_DOCUMENTO = '45544764';
 
   constructor(private fb: FormBuilder, private incidenciaService: IncidenciaService) { }
 
@@ -57,12 +71,39 @@ export class ContentComponent {
     //this.loadCoordenadas();
     this.incidenciaForm.get('nombreColegio')?.valueChanges.subscribe(value => {
       if (value) {
-
         const idcolegio = this.colegios.find(f => f.NombreColegio === value)?.IdColegio;
         this.incidenciaForm.get('idcolegio')?.setValue(idcolegio);
       }
     });
+
+    const incidencias = [
+      { Tipologia: 'Salud' },
+      { Tipologia: 'Calidad' },
+      { Tipologia: 'Otros' }
+    ];
+
+    // Obtener tipos únicos y agregar "Todas" al inicio
+  this.tipologias = ['Todas', ...new Set(incidencias.map(i => i.Tipologia))];
+
+
+    // // Probar búsqueda con tipo y número de documento
+    // this.buscarPorTipoYNumero(this.TIPO_DOCUMENTO, this.NUMERO_DOCUMENTO);
+
+    // // Probar búsqueda solo con número de documento
+    // this.buscarPorNumero(this.NUMERO_DOCUMENTO);
   }
+
+  filtrarIncidencias(tipo: string) {
+    this.filtroSeleccionado = tipo;
+
+    if (tipo === 'Todas') {
+      this.incidenciasFiltradas = this.incidencias;
+    } else {
+      this.incidenciasFiltradas = this.incidencias.filter(i => i.Tipologia === tipo);
+    }
+  }
+
+  //Inicio Metodos Para El Modal Registrar
 
   onFileSelect(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -115,7 +156,7 @@ export class ContentComponent {
       return;
     }
 
-    const incidencia: IncidenciaDato = {
+    const incidencia: IncidenciaDao = {
       IdColegio: this.incidenciaForm.value.idcolegio, // Obtenemos el IdColegio desde la búsqueda
       TipoIncidencia: this.incidenciaForm.value.tipoIncidencia,
       Tipologia: this.incidenciaForm.value.tipologia,
@@ -127,6 +168,14 @@ export class ContentComponent {
       Archivo: this.incidenciaForm.value.archivo,
       Estado: this.incidenciaForm.value.estado,
       FechaReagendado: this.incidenciaForm.value.fechaReagendado,
+
+      Colegio: {
+        IdColegio: this.incidenciaForm.value.idcolegio,
+        IdDistrito: this.selectedDistritoId ? this.selectedDistritoId.toString() : '',
+        NombreColegio: this.incidenciaForm.value.nombreColegio,
+
+      },
+
     };
     console.log('VEr datos enviados', incidencia);
     this.incidenciaService.registrarIncidencia(incidencia).subscribe({
@@ -290,6 +339,54 @@ export class ContentComponent {
       console.error('No se encontró el modal en el DOM.');
     }
   }
+  //Fin Metodos Para El Modal Registrar
+
+
+  //Inicio Metodos Para El Modal Buscar
+  buscarPorTipoYNumero(tipoDoc: string, nroDoc: string): void {
+    this.incidenciaService.buscarPorTipoYNumero(tipoDoc, nroDoc).subscribe(
+      (data) => {
+        console.log('Resultados por Tipo y Número:', data);
+        this.incidencias = data;
+
+        if (this.incidencias.length > 0) {
+          this.resultado_busqueda(); // Mostrar modal de resultados
+          this.incidenciasFiltradas = this.incidencias;
+        } else {
+          alert("No se encontraron incidencias para este documento.");
+        }
+      },
+      (error) => {
+        console.error('Error al obtener incidencias por Tipo y Número', error);
+        alert("Ocurrió un error al buscar incidencias.");
+      }
+    );
+  }
+
+
+
+  buscarPorNumero(nroDoc: string): void {
+    this.incidenciaService.buscarPorNumero(nroDoc).subscribe(
+      (data) => {
+        this.incidencias = data;
+        console.log('Lista incidencia por numero', data);
+      },
+      (error) => {
+        console.error('Error al obtener incidencias', error);
+      }
+    );
+  }
+
+  cerrarModal(): void {
+    if (this.myModal2) {
+      const modalInstance = Modal.getInstance(this.myModal2.nativeElement);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  }
+  //Inicio Metodos Para El Modal Buscar
+
 
   siguiente(): void {
     // Lógica para avanzar al paso 2
@@ -304,6 +401,12 @@ export class ContentComponent {
     document.getElementById('dos')?.classList.remove('activo');
     document.getElementById('tres')?.classList.add('activo');
   }
+
+  reinicio(): void {
+    document.getElementById('uno')?.classList.remove('activo');
+    document.getElementById('fin')?.classList.add('activo');
+  }
+
 
   volver1(): void {
     const modal1 = document.getElementById('uno');
@@ -368,51 +471,59 @@ export class ContentComponent {
     botonera5?.classList.toggle("boton_activo");
   }
 
-  salud() {
-    const tipoSalud = document.getElementById("salud");
-    const tipoCalidad = document.getElementById("calidad");
-    const tipoOtros = document.getElementById("otros");
-
-    tipoSalud?.classList.add("salud_activada");
-    tipoCalidad?.classList.remove("calidad_activada");
-    tipoCalidad?.classList.remove("otros_activada");
-    tipoOtros?.classList.remove("calidad_activada");
-    tipoOtros?.classList.remove("otros_activada");
-    this.incidenciaForm.get('tipologia')?.setValue('salud');
+  toggleClassesForTipologia(selected: string, formField: string): void {
+    const types = ["salud", "calidad", "otros"];
+    types.forEach(type => {
+      document.getElementById(type)?.classList.toggle(`${type}_activada`, type === selected);
+    });
+    this.incidenciaForm.get('tipologia')?.setValue(formField);
   }
 
-  calidad() {
-    const tipoSalud = document.getElementById("salud");
-    const tipoCalidad = document.getElementById("calidad");
-    const tipoOtros = document.getElementById("otros");
-
-    tipoSalud?.classList.remove("salud_activada");
-    tipoSalud?.classList.remove("otros_activada");
-    tipoCalidad?.classList.add("calidad_activada");
-    tipoOtros?.classList.remove("salud_activada");
-    tipoOtros?.classList.remove("otros_activada");
-    this.incidenciaForm.get('tipologia')?.setValue('calidad');
+  salud(): void {
+    this.toggleClassesForTipologia("salud", "salud");
   }
 
-  otros() {
-    const tipoSalud = document.getElementById("salud");
-    const tipoCalidad = document.getElementById("calidad");
-    const tipoOtros = document.getElementById("otros");
-
-    tipoSalud?.classList.remove("salud_activada");
-    tipoSalud?.classList.remove("otros_activada");
-    tipoCalidad?.classList.remove("salud_activada");
-    tipoCalidad?.classList.remove("calidad_activada");
-    tipoOtros?.classList.add("otros_activada");
-    this.incidenciaForm.get('tipologia')?.setValue('otros');
+  calidad(): void {
+    this.toggleClassesForTipologia("calidad", "calidad");
   }
 
-  resultadoBusqueda() {
-    const buscarDocumento = document.getElementById("buscar_documento");
-    const resultadoBusqueda = document.getElementById("resultado_busqueda");
-
-    buscarDocumento?.classList.remove("activo");
-    resultadoBusqueda?.classList.add("activo");
+  otros(): void {
+    this.toggleClassesForTipologia("otros", "otros");
   }
 
+  toggleClasses(addClass: string, removeClasses: string[]): void {
+    document.getElementById(addClass)?.classList.add("activo");
+    removeClasses.forEach(id => document.getElementById(id)?.classList.remove("activo"));
+  }
+
+  resultado_busqueda(): void {
+    this.toggleClasses("resultado_busqueda", ["buscar_documento"]);
+  }
+
+  salir_busqueda(): void {
+    this.toggleClasses("buscar_documento", ["resultado_busqueda", "detalle_busqueda_incidencia"]);
+  }
+
+  detalle_busqueda_incidencia(incidencia: IncidenciaDao): void {
+    this.incidenciaSeleccionada = incidencia;
+    this.toggleClasses("detalle_busqueda_incidencia", ["resultado_busqueda"]);
+  }
+
+
+  salir_detalle(): void {
+    this.toggleClasses("resultado_busqueda", ["buscar_documento", "detalle_busqueda_incidencia"]);
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    console.log(window.scrollY);
+    const nav = document.getElementById('home');
+    if (nav) {
+      if (window.scrollY > 100) {
+        nav.classList.add("navbar1");
+      } else {
+        nav.classList.remove("navbar1");
+      }
+    }
+  }
 }

@@ -81,7 +81,6 @@
     <button
       class="buscar_incidencia"
       id="buscar_incidencia"
-      onclick="buscar_incidencia()"
       data-bs-toggle="modal"
       data-bs-target="#myModal2"
     >
@@ -154,7 +153,7 @@
 </div>
 
 <!-- The Modal -->
-<div class="modal registro_incidencia_1" id="myModal" tabindex="-1" aria-hidden="true">
+<div class="modal registro_incidencia_1" id="myModal">
   <div class="modal-dialog">
     <form  [formGroup]="incidenciaForm">
       <div class="modal-content uno activo" id="uno">
@@ -223,10 +222,10 @@
 
           <!-- Select Región -->
           <select
-
+            id="campos1"
             class="campos one"
             name="region"
-           formControlName="region"
+            formControlName="region"
             (change)="onRegionChange()"
           >
             <option value="" disabled selected>Región</option>
@@ -238,7 +237,7 @@
 
           <!-- Select Provincia -->
           <select
-
+            id="campos1"
             class="campos two"
             name="provincia"
             formControlName="provincia"
@@ -257,7 +256,7 @@
 
           <!-- Select Distrito -->
           <select
-
+            id="campos1"
             class="campos three"
             name="distrito"
             formControlName="distrito"
@@ -382,30 +381,22 @@
       </div>
 
       <div class="modal-content fin" id="fin">
+
         <!-- Modal Header -->
         <div class="modal-header">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <!-- Modal body -->
-
-        <div class="modal-body">Se registro la incidencia con éxito</div>
+        <div class="modal-body">
+          Se registro la incidencia con éxito
+        </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn_siguiente"
-            data-bs-dismiss="modal"
-            onclick="resetForm()"
-          >
-            Cerrar
-          </button>
+          <button type="button" class="btn_siguiente" data-bs-dismiss="modal" (click)="reinicio()">Cerrar</button>
         </div>
+
       </div>
     </form>
   </div>
@@ -414,93 +405,147 @@
 <!-- The Modal 2-->
 <div class="modal buscar_incidencia" id="myModal2">
   <div class="modal-dialog">
+
     <div class="modal-content buscar_documento activo" id="buscar_documento">
+
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Buscar Incidencia</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
+        <h4 class="modal-title">Incidencias por Documento</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <form action="">
           <div class="doc_identidad">
-            <select id="T_Doc" class="campos p3" name="T_Doc">
-              <option value="Region">T. Doc.</option>
+            <select id="T_Doc" class="campos p3" name="tipoDocumento" [(ngModel)]="tipoDocumento">
+              <option value="" disabled selected>T. Doc.</option>
               <option value="DNI">DNI</option>
               <option value="CE">C.E.</option>
             </select>
-            <input
-              id="num_documento"
-              class="campos num_documento p3"
-              type="number"
-              placeholder="Numero de Documento"
-            />
+            <input id="num_documento" class="campos num_documento p3" type="number" placeholder="Numero de Documento" name="numeroDocumento" [(ngModel)]="numeroDocumento">
           </div>
         </form>
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" onclick="resultado_busqueda()">Ver</button>
+        <button type="button" (click)="buscarPorTipoYNumero(tipoDocumento, numeroDocumento)">Ver</button>
       </div>
+
     </div>
 
     <div class="modal-content resultado_busqueda" id="resultado_busqueda">
+
       <!-- Modal Header -->
       <div class="modal-header">
+
         <h4 class="modal-title">
-          Incidencias Registradas
-          <div class="detalle_usuario">
-            <span>Juan Aguilar </span> - <span>Unidad Escolar 154 </span>
+          <div class="return" (click)="salir_busqueda()">
+            <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.125 13.0414L8.23555 13.875L0.875001 7L8.23555 0.125L9.125 0.954296L2.6582 7L9.125 13.0414Z" fill="#5C5C5C"/>
+            </svg>
+          </div>
+          <div class="Incidencias_registradas">
+            Incidencias Registradas
+            <div class="detalle_usuario">
+              <span>Juan Aguilar </span> - <span>Unidad Escolar 154 </span>
+            </div>
           </div>
         </h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
       <!-- Modal body -->
       <div class="modal-body">
         <div class="input-group rounded buscador">
-          <input
-            type="search"
-            class="form-control rounded"
-            placeholder="Search"
-            aria-label="Search"
-            aria-describedby="search-addon"
-          />
+          <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
           <span class="input-group-text border-0" id="search-addon">
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 12 12"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4.875 0.75C2.60063 0.75 0.75 2.60063 0.75 4.875C0.75 7.14937 2.60063 9 4.875 9C7.14937 9 9 7.14937 9 4.875C9 2.60063 7.14937 0.75 4.875 0.75ZM4.875 8.25C3.01425 8.25 1.5 6.73612 1.5 4.875C1.5 3.01425 3.01425 1.5 4.875 1.5C6.73612 1.5 8.25 3.01425 8.25 4.875C8.25 6.73612 6.73612 8.25 4.875 8.25Z"
-                fill="#5C5C5C"
-              />
-              <path
-                d="M11.1401 10.6098L8.88973 8.35985C8.74311 8.21322 8.50611 8.21322 8.35948 8.35985C8.21286 8.50647 8.21286 8.74347 8.35948 8.8901L10.6099 11.1401C10.683 11.2132 10.779 11.25 10.875 11.25C10.971 11.25 11.067 11.2132 11.1401 11.1401C11.2867 10.9935 11.2867 10.7565 11.1401 10.6098Z"
-                fill="#5C5C5C"
-              />
-            </svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.875 0.75C2.60063 0.75 0.75 2.60063 0.75 4.875C0.75 7.14937 2.60063 9 4.875 9C7.14937 9 9 7.14937 9 4.875C9 2.60063 7.14937 0.75 4.875 0.75ZM4.875 8.25C3.01425 8.25 1.5 6.73612 1.5 4.875C1.5 3.01425 3.01425 1.5 4.875 1.5C6.73612 1.5 8.25 3.01425 8.25 4.875C8.25 6.73612 6.73612 8.25 4.875 8.25Z" fill="#5C5C5C"/>
+              <path d="M11.1401 10.6098L8.88973 8.35985C8.74311 8.21322 8.50611 8.21322 8.35948 8.35985C8.21286 8.50647 8.21286 8.74347 8.35948 8.8901L10.6099 11.1401C10.683 11.2132 10.779 11.25 10.875 11.25C10.971 11.25 11.067 11.2132 11.1401 11.1401C11.2867 10.9935 11.2867 10.7565 11.1401 10.6098Z" fill="#5C5C5C"/>
+              </svg>
           </span>
+        </div>
+
+        <div class="tipo_filter">
+          <div
+            *ngFor="let tipo of tipologias"
+            (click)="filtrarIncidencias(tipo)"
+            [class.active]="tipo === filtroSeleccionado"
+            [class.danger]="tipo === 'Salud'"
+          >
+            <span>{{ tipo }}</span>
+          </div>
+        </div>
+
+        <div class="lista_incidencias">
+          <ol>
+            <li *ngFor="let incidencia of incidencias" (click)="detalle_busqueda_incidencia(incidencia)"> {{ incidencia.DetalleIncidencia }} <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.875 0.958594L1.76445 0.125L9.125 7L1.76445 13.875L0.875 13.0457L7.3418 7L0.875 0.958594Z" fill="#5C5C5C"/>
+              </svg>
+            </li>
+          </ol>
         </div>
       </div>
 
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" onclick="incidencias_registradas()">Ver</button>
-      </div>
     </div>
+
+    <div class="modal-content detalle_busqueda_incidencia" id="detalle_busqueda_incidencia">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+
+        <h4 class="modal-title">
+          <div class="return" (click)="salir_detalle()">
+            <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.125 13.0414L8.23555 13.875L0.875001 7L8.23555 0.125L9.125 0.954296L2.6582 7L9.125 13.0414Z" fill="#5C5C5C"/>
+            </svg>
+          </div>
+          <div class="Incidencias_registradas">
+            Detalle Incidencia
+            <div class="detalle_usuario">
+              <span>Juan Aguilar </span> - <span>Unidad Escolar 154 </span>
+            </div>
+          </div>
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <h2> {{ incidenciaSeleccionada?.DetalleIncidencia }} </h2>
+
+        <div class="detalle_registro">
+          <div class="T_1">Tipo</div>
+          <div class="D_1">{{ incidenciaSeleccionada?.Tipologia }}</div>
+          <div class="T_2">Fecha</div>
+          <div class="D_2">{{ incidenciaSeleccionada?.FechaReagendado }}</div>
+          <div class="T_3">Estado</div>
+          <div class="D_3"><div class="color_estado"></div>{{ incidenciaSeleccionada?.Estado }}</div>
+          <div class="T_4">Centro Educatico</div>
+          <div class="D_4">{{ incidenciaSeleccionada?.Colegio?.NombreColegio }}</div>
+          <div class="T_5">Celular</div>
+          <div class="D_5">{{ incidenciaSeleccionada?.CelularTutor }}</div>
+        </div>
+        <h3>
+          Detalle de Incidencia
+        </h3>
+
+        <div class="parrafo_detalle">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, natus eius. Ut mollitia nesciunt officiis illo reiciendis hic rem possimus laboriosam odit deleniti. At debitis atque eaque facere excepturi cum?
+        </div>
+
+        <div class="foto_evidencia">
+          <img src="img/foto_evidencia.png" alt="Foto_Evidencia">
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
   </div>
 </div>
